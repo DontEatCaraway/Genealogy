@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 use think\Db;
-use think\Session;
+use think\facade\Session;
 
 class User extends Model
 {
@@ -26,5 +26,23 @@ class User extends Model
 		}else{
 			return -1;	
 		}
+	}
+
+	//登录
+	public function login($data){
+		$id_card = $data['id_card'];$pass = $data['pass'];
+		$result = Db::table("user")->where(" (id_card='$id_card' or username='$id_card') and pass='$pass' ")->find();
+		if($result){
+			Session::set("id",$result['id']);
+			return 1;   //登录成功
+		}else{
+			return -1;   //登录失败
+		}
+	}
+
+	//获取登陆者的信息
+	public function index_login($id){
+		$result = Db::table("user")->where("id = '$id' ")->find();
+		return $result;
 	}
 }

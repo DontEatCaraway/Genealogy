@@ -1,63 +1,72 @@
 <?php
-	//验证身份证
-	function is_idcard( $id ) 
-	{ 
-	  $id = strtoupper($id); 
-	  $regx = "/(^\d{15}$)|(^\d{17}([0-9]|X)$)/"; 
-	  $arr_split = array(); 
-	  if(!preg_match($regx, $id)) 
-	  { 
-	    return FALSE; 
-	  } 
-	  if(15==strlen($id)) //检查15位 
-	  { 
-	    $regx = "/^(\d{6})+(\d{2})+(\d{2})+(\d{2})+(\d{3})$/"; 
-	  
-	    @preg_match($regx, $id, $arr_split); 
-	    //检查生日日期是否正确 
-	    $dtm_birth = "19".$arr_split[2] . '/' . $arr_split[3]. '/' .$arr_split[4]; 
-	    if(!strtotime($dtm_birth)) 
-	    { 
-	      return FALSE; 
-	    } else { 
-	      return TRUE; 
-	    } 
-	  } 
-	  else      //检查18位 
-	  { 
-	    $regx = "/^(\d{6})+(\d{4})+(\d{2})+(\d{2})+(\d{3})([0-9]|X)$/"; 
-	    @preg_match($regx, $id, $arr_split); 
-	    $dtm_birth = $arr_split[2] . '/' . $arr_split[3]. '/' .$arr_split[4]; 
-	    if(!strtotime($dtm_birth)) //检查生日日期是否正确 
-	    { 
-	      return FALSE; 
-	    } 
-	    else
-	    { 
-	      //检验18位身份证的校验码是否正确。 
-	      //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。 
-	      $arr_int = array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); 
-	      $arr_ch = array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'); 
-	      $sign = 0; 
-	      for ( $i = 0; $i < 17; $i++ ) 
-	      { 
-	        $b = (int) $id{$i}; 
-	        $w = $arr_int[$i]; 
-	        $sign += $b * $w; 
-	      } 
-	      $n = $sign % 11; 
-	      $val_num = $arr_ch[$n]; 
-	      if ($val_num != substr($id,17, 1)) 
-	      { 
-	        return FALSE; 
-	      } //phpfensi.com 
-	      else
-	      { 
-	        return TRUE; 
-	      } 
-	    } 
-	  } 
-	  
+		/**
+	 * 验证手机号码格式
+	 * @param string $phone 手机号
+	 * @return boolean
+	 */
+	function is_phone($phone) {
+	    $chars = "/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$|17[0-9]{1}[0-9]{8}$/";
+	    if (preg_match($chars, $phone)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
+	/**
+	 * 验证固定电话格式
+	 * @param string $tel 固定电话
+	 * @return boolean
+	 */
+	function is_tel($tel) {
+	    $chars = "/^([0-9]{3,4}-)?[0-9]{7,8}$/";
+	    if (preg_match($chars, $tel)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
+	/**
+	 * 验证邮箱格式
+	 * @param string $email 邮箱
+	 * @return boolean
+	 */
+	function is_email($email) {
+	    $chars = "/^[0-9a-zA-Z]+(?:[\_\.\-][a-z0-9\-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\.[a-zA-Z]+$/i";
+	    if (preg_match($chars, $email)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
+	/**
+	 * 验证身份证号码格式
+	 * @param string $id_card 身份证号码
+	 * @return boolean
+	 */
+	function is_idcard($id_card) {
+	    $chars = "/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}(\d|x|X)$/";
+	    if (preg_match($chars, $id_card)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
+	/**
+	 * 验证银行卡号码格式
+	 * @param string $id_card 银行卡号码
+	 * @return boolean
+	 */
+	function is_bank($bank) {
+	    $chars = "/^(\d{16}|\d{19}|\d{17})$/";
+	    if (preg_match($chars, $bank)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
 	}
 
 	//验证中文姓名

@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use app\index\model\User;
+use think\facade\Session;
 
 class Login extends Controller
 {
@@ -25,6 +26,11 @@ class Login extends Controller
     		if($pass == "123456"){
     			return "密码不能设为简单的123456";
     		}
+    		//验证身份证是否已被注册
+    		$ass = Model("User")->verify_info($id_card);
+    		if($ass == "1" ){
+    			return "该身份证已被注册";
+    		}
 
     		$data = array('id_card'=>$id_card ,'username'=>$username ,'pass'=>md5($pass));
     		$result = Model("User")->register($data);
@@ -38,6 +44,20 @@ class Login extends Controller
     public function verify(){
     	$result = Model("User")->verify_info($_POST['id_card']);
     	return $result;
+    }
+
+    //登录
+    public function login(){
+    	if($_POST){
+    		if(!$_POST['id_card'] && !$_POST['pass']){
+    			return -2;    //账号密码为空
+    		}
+    		$data = array('id_card'=>$_POST['id_card'] ,'pass'=>md5($_POST['pass']));
+    		$result = Model("User")->login($data);
+    		return $result;
+
+    	}
+    	return $this->view->fetch();
     }
 
     public function hello($name = 'ThinkPHP5')

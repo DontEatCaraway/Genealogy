@@ -20,5 +20,6 @@ return [
 	'__alias__' =>  [
 	    'login'  =>  'index/Login',
 	    'index'  =>  'index/index',
+	    'personaldata'  =>  'index/Personaldata',
 	],
 ];
