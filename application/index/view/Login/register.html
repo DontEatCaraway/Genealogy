@@ -1,0 +1,191 @@
+{__NOLAYOUT__}<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PeateHome注册</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__ASSETS__/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__ASSETS__/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__ASSETS__/css/amazeui.min.css" />
+    <link rel="stylesheet" href="__ASSETS__/css/amazeui.datatables.min.css" />
+    <link rel="stylesheet" href="__ASSETS__/css/app.css">
+    <script src="__ASSETS__/js/jquery.min.js"></script>
+
+</head>
+
+<body data-type="login">
+    <script src="__ASSETS__/js/theme.js"></script>
+    <div class="am-g tpl-g">
+        <!-- 风格切换 -->
+        <div class="tpl-skiner">
+            <div class="tpl-skiner-toggle am-icon-cog">
+            </div>
+            <div class="tpl-skiner-content">
+                <div class="tpl-skiner-content-title">
+                    选择主题
+                </div>
+                <div class="tpl-skiner-content-bar">
+                    <span class="skiner-color skiner-white" data-color="theme-white"></span>
+                    <span class="skiner-color skiner-black" data-color="theme-black"></span>
+                </div>
+            </div>
+        </div>
+        <div class="tpl-login">
+            <div class="tpl-login-content">
+                <div class="tpl-login-title">注册用户</div>
+                <span class="tpl-login-content-info">
+                  创建一个新的用户
+              </span>
+
+
+                <form class="am-form tpl-form-line-form">
+                    <div class="am-form-group">
+                        <input type="text" class="tpl-form-input" id="id_card" placeholder="身份证号码"><span style="color:red;font-size:10px;" id="span1"></span>
+
+                    </div>
+                    <div class="am-form-group">
+                        <input type="text" class="tpl-form-input" id="username" placeholder="姓名">
+                        <span style="color:red;font-size:10px;" id="span2"></span>
+                    </div>
+
+                    <div class="am-form-group">
+                        <input type="password" class="tpl-form-input" id="pass1" placeholder="请输入密码"> <span style="color:red;font-size:10px;" id="span3"></span>
+                    </div>
+
+                    <div class="am-form-group">
+                        <input type="password" class="tpl-form-input" id="pass2" placeholder="再次输入密码"> <span style="color:red;font-size:10px;" id="span4"></span>
+                    </div>
+
+                    <div class="am-form-group tpl-login-remember-me">
+                        <input id="remember-me" type="checkbox">
+                        <label for="remember-me">
+       
+                        我已阅读并同意 <a href="javascript:;">《用户注册协议》</a> 
+                         </label>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="am-form-group">
+
+                        <button type="button" id="submit"  class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">提交</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="__ASSETS__/js/amazeui.min.js"></script>
+    <script src="__ASSETS__/js/app.js"></script>
+    <script src="__ASSETS__/js/common.js"></script>
+
+</body>
+<script>
+    $(function(){
+
+        //验证身份证输入是否正确
+        $("#id_card").blur(function(){
+            //验证身份证是否已被注册
+             $.ajax({
+                url:'verify',
+                type:'post',
+                data:{id_card:$(this).val()},
+                success: function(start){
+                    if(start == 1){
+                        $("#span1").html("该身份证已注册");
+                        $("#submit").attr('disabled',true);
+                    }
+                }
+            })
+
+            if(!isCardNo($(this).val())){
+               $("#span1").html("身份证格式不正确");
+               $("#submit").attr('disabled',true);
+            }else{
+               $("#span1").html("");
+               $("#submit").attr('disabled',false);
+            }
+            
+        })
+
+        //验证姓名输入是否正确
+        $("#username").blur(function(){
+            if(!isChinaName($(this).val())){
+               $("#span2").html("姓名格式不正确(请输入真实的中文姓名)");
+               $("#submit").attr('disabled',true);
+            }else{
+               $("#span2").html("");
+               $("#submit").attr('disabled',false);
+            }
+            
+        })
+
+        //验证密码输入是否正确
+        $("#pass1").blur(function(){
+            var pass1 = $(this).val();
+            if(pass1 == "" || pass1 == "123456" ){
+               $("#span3").html("密码不能为空且不能设为(123456)");
+               $("#submit").attr('disabled',true);
+            }else if(pass1.length<6 || pass1.length>16){
+               $("#span3").html("密码长度为6-16个字符");
+               $("#submit").attr('disabled',true);
+            }else{
+               $("#span3").html("");
+               $("#submit").attr('disabled',false);
+            }
+            
+        })
+
+        //验证确认密码输入是否正确
+        $("#pass2").blur(function(){
+            var pass1 = $(this).val();
+            var pass2 = $("#pass1").val();
+            if(pass1 != pass2){
+               $("#span4").html("两次密码输入不一致");
+               $("#submit").attr('disabled',true);
+            }else{
+               $("#span4").html("");
+               $("#submit").attr('disabled',false);
+            }
+            
+        })
+
+        //提交
+        $("#submit").click(function(){
+            //获取注册信息
+            var id_card = $("#id_card").val();
+            var username = $("#username").val();
+            var pass = $("#pass1").val();
+            if(!id_card || !username || !pass){
+                return false;
+            }
+
+            //传递注册信息
+            $.ajax({
+                url:'register',
+                type:'post',
+                data:{id_card:id_card,username:username,pass:pass},
+                success: function(start){
+                    if(start == "1"){
+                        alert("注册成功");
+                    }else if(start == "-1"){
+                        alert("注册失败");
+                    }else{
+                        alert(start);
+                    }
+                }
+            })
+
+        })
+    })
+</script>
+</html>

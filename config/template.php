@@ -32,4 +32,15 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
+    //全局模板
+        'layout_on'     =>  true,
+        'layout_name'   =>  'layout/layouts',
+        'layout_item'   =>  '{__CONTENT__}',
+    
+
+    'tpl_replace_string' => [ // 视图输出字符串内容替换
+    '__ASSETS__' => '../static/assets', // CSS文件目录
+    ],
 ];
+
+
