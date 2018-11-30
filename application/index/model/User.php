@@ -45,4 +45,17 @@ class User extends Model
 		$result = Db::table("user")->where("id = '$id' ")->find();
 		return $result;
 	}
+
+	//完善用户信息
+	public function update_user($arr,$head_file){
+		$id = Session::get("id");
+		$result = Db::table("user")->where(" id = '$id' ")->update($arr);
+		if($result){
+			//move_uploaded_file($head_file["file"]["tmp_name"],$head_file["file"]["tmp"]);//将临时地址移动到指定地址 
+			Session::set("head_file","");
+			return 1;
+		}else{
+			return -1;
+		}
+	}
 }

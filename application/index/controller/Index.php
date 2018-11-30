@@ -8,6 +8,13 @@ use app\index\model\User;
 
 class Index extends Controller
 {
+    public function initialize()
+    {
+        //获取模板信息
+        $menus=new  Layout;
+        $menus ->layouts("personaldata");
+    }   
+    
     public function index()
     {
         //获取模板信息

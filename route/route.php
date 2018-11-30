@@ -21,5 +21,6 @@ return [
 	    'login'  =>  'index/Login',
 	    'index'  =>  'index/index',
 	    'personaldata'  =>  'index/Personaldata',
+	    'layout'  =>  'index/Layout',
 	],
 ];
