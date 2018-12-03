@@ -12,6 +12,9 @@ class Layout extends Controller
 		 //获取登录人
         $id = Session::get('id');
         $result = Model("User")->index_login($id);
+        //头像
+        $img = $result['file'];
+        $this->assign("img",$img);
         $this->assign("template",$result);
         $this->assign("catalog",$catalog);
 	}
@@ -29,11 +32,11 @@ class Layout extends Controller
 	    $imgname = $id_name . "." .$extension;
 	    
 	   	$newpath="../public/static/uploads/".$imgname;
-		// move_uploaded_file($_FILES["file"]["tmp_name"],$newpath);//将临时地址移动到指定地址 
+		move_uploaded_file($_FILES["file"]["tmp_name"],$newpath);//将临时地址移动到指定地址 
 		$_FILES['file']['name'] = $imgname;
 		$_FILES['file']['tmp'] = $newpath;
 		Session::set("head_file",$_FILES);
-		return json_encode($id_name);
+		return json_encode($_FILES);
 	   
  }
 }

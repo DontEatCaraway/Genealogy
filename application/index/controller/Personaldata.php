@@ -15,6 +15,7 @@ class Personaldata extends Controller
     	$menus ->layouts("personaldata");
 	}	
 
+	//个人中心
 	public function index(){
 		if($_POST){
 			$head_file = Session::get("head_file");
@@ -24,11 +25,21 @@ class Personaldata extends Controller
 	    	}else{
 	    		$arr['hobby'] = "";
 	    	}
-	    	$arr['file'] = $head_file['file']['name'];
+
+	    	//如果重新上传了图片
+	    	if($head_file){
+	    		$arr['file'] = $head_file['file']['tmp'];
+	    	}
+	    	$arr['updatetime'] = time();
+
 			$result = Model("User")->update_user($arr,$head_file);
 			if($result==1){
-				echo "成功啦";
-			}	
+				 $success = array('url'=>'index','name'=>'个人信息更新成功');
+				 $this->assign("success",$success);
+				 return $this->view->fetch("Layout/url");
+			}else{
+				$this->error('新增失败');  //更新失败
+			}
 		}else{
 
 			$id = Session::get("id");
@@ -41,6 +52,9 @@ class Personaldata extends Controller
 	       }else{
 	       	  $hobby = "";
 	       }
+	       //头像
+	       $img = $result['file'];
+	       $this->assign("img",$img);
 	       $this->assign("hobby",$hobby);
 			return $this->view->fetch();
 

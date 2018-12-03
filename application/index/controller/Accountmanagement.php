@@ -6,19 +6,17 @@ use app\index\controller\Layout;
 use think\facade\Session;
 use app\index\model\User;
 
-class Index extends Controller
+class Accountmanagement extends Controller
 {
     public function initialize()
     {
         //获取模板信息
         $menus=new  Layout;
-        $menus ->layouts("index");
+        $menus ->layouts("account_management");
     }   
     
     public function index()
     {
-       
-       
         return $this->view->fetch();
     }
 

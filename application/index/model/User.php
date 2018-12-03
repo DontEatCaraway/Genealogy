@@ -51,8 +51,11 @@ class User extends Model
 		$id = Session::get("id");
 		$result = Db::table("user")->where(" id = '$id' ")->update($arr);
 		if($result){
-			//move_uploaded_file($head_file["file"]["tmp_name"],$head_file["file"]["tmp"]);//将临时地址移动到指定地址 
-			Session::set("head_file","");
+			if($head_file){
+				//保存图片并销毁缓存
+				move_uploaded_file($head_file["file"]["tmp_name"],$head_file["file"]["tmp"]);//将临时地址移动到指定地址 
+				Session::set("head_file","");
+			}
 			return 1;
 		}else{
 			return -1;

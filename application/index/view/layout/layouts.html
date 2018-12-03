@@ -17,8 +17,24 @@
     <link rel="stylesheet" href="__ASSETS__/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="__ASSETS__/css/app.css">
     <script src="__ASSETS__/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="__ASSETS__/layui/css/layui.css"  media="all">
+
+    <!-- 弹出 -->
+    <link rel="stylesheet" href="__ASSETS__/css/x0popup.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courgette">
+    <script>window.jQuery || document.write('<script src="__ASSETS__/js/jquery-2.1.1.min.js"><\/script>')</script>
+    <script src="__ASSETS__/js/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="__ASSETS__/css/sweetalert2.min.css">
+      <!-- IE support -->
+    <script src="https://cdn.jsdelivr.net/es6-promise/latest/es6-promise.min.js"></script>
+    <!-- 弹出 -->
 
 </head>
+<style>
+  #divcss5{width:80px;height: 80px;margin-left: -90px;}
+  #divcss5 img{ border-radius:50%}; 
+  #hobbys input{background-color:red;}
+</style>
 
 <body data-type="index">
     <script src="__ASSETS__/js/theme.js"></script>
@@ -187,14 +203,12 @@
             <!-- 用户信息 -->
             <div class="tpl-sidebar-user-panel">
                 <div class="tpl-user-panel-slide-toggleable">
-                    <div class="tpl-user-panel-profile-picture">
-                        <img src="__ASSETS__/img/user04.png" alt="">
-                    </div>
+                    <div id="divcss5" style="width:100px;height:100px;margin-left:-10px;" class="layui-anim layui-anim-rotate layui-anim-loop"><img <?php if($img){echo "src='../$img'";}?> id="demo1"  style="width:100px;height:100px;border-radius:50%;" /></div>
                     <span class="user-panel-logged-in-text">
               <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
               {$template.username}
           </span>
-                    <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
+                    <a href="../personaldata/index" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 个人中心</a>
                 </div>
             </div>
 
@@ -206,11 +220,48 @@
                         <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
                     </a>
                 </li>
+
                 <li class="sidebar-nav-link">
-                    <a href="../personaldata/index" {if $catalog=="personaldata"}class="active"{/if}>
-                        <i class="am-icon-table sidebar-nav-link-logo"></i> 个人中心
+                    <a href="javascript:;" class="sidebar-nav-sub-title {if $catalog=="account_management"}active{/if}" >
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 账户管理
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+
+                        <li class="sidebar-nav-link">
+                            <a href="../account_management/index">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 族氏管理
+                            </a>
+                        </li>
+
+                        <li class="sidebar-nav-link">
+                            <a href="table-list-img.html">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户管理
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
+                <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 系统管理
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="table-list.html">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户管理
+                            </a>
+                        </li>
+
+                        <li class="sidebar-nav-link">
+                            <a href="table-list-img.html">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户权限
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-nav-link" >
                     <a href="" class="click">
                         <i class="am-icon-calendar sidebar-nav-link-logo"></i> 日历
@@ -230,25 +281,7 @@
                 </li>
 
                 <li class="sidebar-nav-heading">Page<span class="sidebar-nav-heading-info"> 常用页面</span></li>
-                <li class="sidebar-nav-link">
-                    <a href="javascript:;" class="sidebar-nav-sub-title">
-                        <i class="am-icon-table sidebar-nav-link-logo"></i> 数据列表
-                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-                    </a>
-                    <ul class="sidebar-nav sidebar-nav-sub">
-                        <li class="sidebar-nav-link">
-                            <a href="table-list.html">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 文字列表
-                            </a>
-                        </li>
-
-                        <li class="sidebar-nav-link">
-                            <a href="table-list-img.html">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 图文列表
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+               
                 <li class="sidebar-nav-link">
                     <a href="../login/register">
                         <i class="am-icon-clone sidebar-nav-link-logo"></i> 注册
@@ -282,6 +315,7 @@
     <script src="__ASSETS__/js/dataTables.responsive.min.js"></script>
     <script src="__ASSETS__/js/app.js"></script>
     <script src="__ASSETS__/js/common.js"></script>
+    <script src="__ASSETS__/js/x0popup.min.js"></script>
     <script>
     $(function(){
         //隐藏或显示左侧栏

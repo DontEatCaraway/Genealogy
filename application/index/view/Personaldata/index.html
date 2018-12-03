@@ -1,10 +1,4 @@
-<link rel="stylesheet" href="__ASSETS__/layui/css/layui.css"  media="all">
-  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
- <style>
-  #divcss5{width:80px;height: 80px;margin-left: -90px;}
-  #divcss5 img{ border-radius:50%}; 
-  #hobbys input{background-color:red;}
-</style>
+<!-- 个人中心模块 -->
 <div class="row-content am-cf">
  <div class="row">
 	<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
@@ -22,10 +16,9 @@
 	        <label for="user-name" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">头像</span></label>
 	        <div class="am-u-sm-9">
 	        	<div class="layui-input-block">
-			        <div id="divcss5" class="layui-anim layui-anim-rotate layui-anim-loop"><img id="demo1"  style="width:80px;height:80px;border-radius:50%;" /></div>
+			        <div id="divcss5" class="layui-anim layui-anim-rotate layui-anim-loop"><img <?php if($result['file']){echo "src='../$img'";}?> id="demo1"  style="width:80px;height:80px;border-radius:50%;" /></div>
 			         <button type="button" id="test1" style="margin-top: -60px;" class="am-btn am-btn-danger am-btn-sm">
     					<i class="am-icon-cloud-upload"></i> 上传头像</button>
-    				<input type="hidden" name="file" data="" value="" id="file" >
 			    </div>
 	        </div>
 	    </div>
@@ -43,8 +36,8 @@
 	    <div class="am-form-group">
 	        <label for="user-email" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">性别</span></label>
 		        <div class="am-u-sm-9">
-			      <input type="radio" name="sex" value="男" title="男" checked="">
-			      <input type="radio" name="sex" value="女" title="女">
+			      <input type="radio" name="sex" value="男" title="男" <?php if($result['sex']=='男'){echo "checked=''";}?> checked="">
+            <input type="radio" name="sex" value="女" title="女" <?php if($result['sex']=='女'){echo "checked=''";}?> >
 			    </div>
 	    </div>
 
@@ -99,7 +92,7 @@
 
 	     <div class="am-form-group">
 			<div class="am-u-sm-9 am-u-sm-push-3">
-	        <button type="submit" style="width:30%;" id="submit"  class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">提交</button>
+	        <button type="submit" style="width:30%;" id="submit"  class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">更新</button>
 			</div>
 	    </div>
 
@@ -132,16 +125,14 @@ layui.use('upload', function(){
 });
 </script>
 <script>
-
-
+  //判断是否更新个人信息成功
+  {}
   $(function(){
   	 //验证输入的手机号格式是否正确
       $("#mobile").blur(function(){
            var mobile=$(this).val();
          	if(!isPhoneNo(mobile)){ 
                layer.msg('请输入正确的手机号',{icon: 2,time: 1000});
-           }else{
-               $("#submit").attr("style","");
            }
              
       })

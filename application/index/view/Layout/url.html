@@ -1,0 +1,15 @@
+<script>
+	<?php
+		if(isset($success)){
+	?>
+			swal({
+                  title: '<?php echo $success['name'];?>',
+                  text: "Welcome to PeateHome",
+                  type: 'success', 
+                }).then(function(isConfirm) {
+                   window.location.href = "<?php echo $success['url'];?>";
+                });
+	<?php		
+		}
+	?>
+</script>

@@ -22,5 +22,6 @@ return [
 	    'index'  =>  'index/index',
 	    'personaldata'  =>  'index/Personaldata',
 	    'layout'  =>  'index/Layout',
+	    'account_management'  =>  'index/Accountmanagement',
 	],
 ];
