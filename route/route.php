@@ -23,5 +23,6 @@ return [
 	    'personaldata'  =>  'index/Personaldata',
 	    'layout'  =>  'index/Layout',
 	    'account_management'  =>  'index/Accountmanagement',
+	    'user'  =>  'index/Useradmin',
 	],
 ];

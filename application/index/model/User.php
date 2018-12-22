@@ -61,4 +61,13 @@ class User extends Model
 			return -1;
 		}
 	}
+
+	//用户管理
+	public function index(){
+
+		$result = Db::table("user")->paginate(10);
+		$page = $result->render();
+		return array('result'=>$result,'page'=>$page); 
+	}
+
 }
