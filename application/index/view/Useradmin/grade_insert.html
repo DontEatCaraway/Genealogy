@@ -1,0 +1,121 @@
+<!-- 等级添加模块 -->
+<style type="text/css">
+
+.layui-form-select dl{
+	background-color: #0A2229;
+}
+</style>
+<div class="row-content am-cf">
+ <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+    <div class="widget am-cf">
+    <div class="widget-head am-cf">
+    <div class="widget-title am-fl"><a style="color: white;" href="generation_name">用户等级管理</a> —— {if $id}等级修改{else}等级添加{/if}</div>
+    <div class="widget-function am-fr">
+        <a href="javascript:;" class="am-icon-cog"></a>
+    </div>
+    </div>
+    <div class="widget-body am-fr">
+    <form class="layui-form" method="post" action="grade_insert{if $ass}?id={$id}{/if}" >
+    <div class="am-form tpl-form-line-form">
+
+		<div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">等级权重</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" onchange = "value=value.replace(/[^\d]/g,'')" class="tpl-form-input" value="{$ass.quanzhong}" name="quanzhong" id="quanzhong"  placeholder="请输入字辈权重(例如：0,1,2......)">
+                <small>提示：数字越小权重越高(权重越高辈分越高)</small>
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">等级名称</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="name" id="name" value="{$ass.name}" placeholder="请输入字辈名称">
+                <small></small>
+            </div>
+        </div>
+
+       
+
+        <div class="am-form-group">
+            <label for="user-email" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">状态</span></label>
+                <div class="am-u-sm-9">
+                  <input type="checkbox"  name="state" id="state" value="{if $ass.state}{$ass.state}{else}1{/if}" lay-skin="switch" lay-filter="switchTest" lay-text="开启|关闭"  {if $ass.state==1}checked=""{elseif $ass.state=='2'}{else}checked=""{/if}>    <!-- 新增时默认为开启族氏values值为1 -->
+                </div>
+        </div>
+ 
+         <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+            <button type="submit" style="width:30%;" id="submit"  class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">{if $ass}修改{else}添加{/if}</button>
+            </div>
+        </div>
+
+<div></div></div>  </div>                            
+</form>
+<script src="__ASSETS__/layui/layui.js" charset="utf-8"></script>
+<script>
+  layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  
+  //日期
+  laydate.render({
+    elem: '#date'
+  });
+  laydate.render({
+    elem: '#date1'
+  });
+  
+  //创建一个编辑器
+  var editIndex = layedit.build('LAY_demo_editor');
+ 
+  
+  //监听指定开关
+  form.on('switch(switchTest)', function(data){
+    // layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+    //   offset: '6px'
+    // });
+    if(this.checked==true){
+        layer.tips('您选择开启等级！', data.othis);
+        $("#state").attr("value","1");
+    }else if(this.checked==false){
+        layer.tips('您选择关闭等级！', data.othis);
+        $("#state").attr("value","2");
+    }
+   
+  });
+
+  form.on('select(cid)', function (data) {
+                category = data.value;
+                categoryName = data.elem[data.elem.selectedIndex].text;
+                form.render('select'); 
+         });
+
+  
+  //监听提交
+  form.on('submit(demo1)', function(data){
+    layer.alert(JSON.stringify(data.field), {
+      title: '最终的提交信息'
+    })
+    return false;
+  });
+
+  
+});
+
+  $(function(){
+    $("#submit").click(function(){
+    	if(!$("#quanzhong").val()){
+            layer.msg('请输入等级权重',{icon: 2,time: 1000});
+            return false;
+        }
+
+        if(!$("#gname").val()){
+            layer.msg('请输入等级名称',{icon: 2,time: 1000});
+            return false;
+        }
+    })
+  })
+</script>

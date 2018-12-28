@@ -42,8 +42,25 @@ class Login extends Controller
 
     //验证该身份证是否注册
     public function verify(){
-    	$result = Model("User")->verify_info($_POST['id_card']);
-    	return $result;
+        if($_POST['id']){
+            //根据身份证查数据库的回调信息（查看该身份证号是否存在）
+            $result = Model("User")->verify_info($_POST['id_card']);
+            //获取当前用户的用户信息
+            $result2 = Model("User")->index_login($_POST['id']);
+            //判断输入的身份证号码数据库是否存在
+            if($result == 1){
+                //判断当前输入的身份证号码是否与原用户的身份证号一致
+                if($result2['id_card'] == $_POST['id_card']){
+                    return 2;  //身份证号未作改变
+                }else{
+                    return 1;  //身份证已注册
+                }
+            }
+        }else{
+            $result = Model("User")->verify_info($_POST['id_card']);
+            return $result;
+        }
+    	
     }
 
     //登录

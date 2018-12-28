@@ -1,0 +1,127 @@
+<!-- 用户添加模块 -->
+<div class="row-content am-cf">
+ <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+    <div class="widget am-cf">
+    <div class="widget-head am-cf">
+    <div class="widget-title am-fl"><a style="color: white;" href="index">用户管理</a> —— {if $id}用户修改{else}用户添加{/if}</div>
+    <div class="widget-function am-fr">
+        <a href="javascript:;" class="am-icon-cog"></a>
+    </div>
+    </div>
+    <div class="widget-body am-fr">
+    <form class="layui-form" method="post" action="insert_user{if $ass}?id={$id}{/if}" >
+    <div class="am-form tpl-form-line-form">
+
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">用户姓名</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="username" id="username" value="{$ass.username}" placeholder="请输入用户姓名">
+                <small></small>
+            </div>
+        </div>
+
+       <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label"><span class="tpl-form-line-small-title">身份证</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="id_card" id="id_card" value="{$ass.id_card}"  placeholder="请输入身份证">
+                <small></small>
+            </div>
+        </div>
+ 
+        <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+            <button type="submit" style="width:30%;" id="submit"  class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">{if $id}修改用户{else}添加用户{/if}</button>
+            </div>
+        </div>
+
+<div></div></div>  </div>                            
+</form>
+<script src="__ASSETS__/layui/layui.js" charset="utf-8"></script>
+<script src="__ASSETS__/js/common.js"></script>
+<script>
+  layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  
+  //日期
+  laydate.render({
+    elem: '#date'
+  });
+  laydate.render({
+    elem: '#date1'
+  });
+  
+  //创建一个编辑器
+  var editIndex = layedit.build('LAY_demo_editor');
+ 
+  
+  //监听指定开关
+  form.on('switch(switchTest)', function(data){
+    // layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+    //   offset: '6px'
+    // });
+    if(this.checked==true){
+        layer.tips('您选择开启族氏！', data.othis);
+        $("#state").attr("value","1");
+    }else if(this.checked==false){
+        layer.tips('您选择关闭族氏！', data.othis);
+        $("#state").attr("value","2");
+    }
+   
+  });
+  
+  //监听提交
+  form.on('submit(demo1)', function(data){
+    layer.alert(JSON.stringify(data.field), {
+      title: '最终的提交信息'
+    })
+    return false;
+  });
+
+  
+});
+
+  $(function(){
+    var id = "{$id}";
+   //验证身份证输入是否正确
+    $("#id_card").blur(function(){
+        //验证身份证是否已被注册
+        $.ajax({
+            url:'../login/verify',
+            type:'post',
+            data:{id_card:$(this).val(),id:id},
+            success: function(start){
+                if(start == 1){
+                    layer.msg('该身份证号已被注册', {icon: 2,time: 1000});
+                    $("#submit").attr('disabled',true);
+                }
+            }
+        })
+
+        if(!isCardNo($(this).val())){
+            layer.msg('身份证格式不正确', {icon: 2,time: 1000});
+           $("#submit").attr('disabled',true);
+        }else{
+           $("#submit").attr('disabled',false);
+        }
+        
+    })
+
+    $("#submit").click(function(){
+
+        if(!$("#username").val()){
+            layer.msg('请输入用户姓名',{icon: 2,time: 1000});
+            return false;
+        }
+
+        if(!isCardNo($("#id_card").val())){
+              layer.msg('身份证格式不正确', {icon: 2,time: 1000});   
+        }
+      
+    })
+  })
+</script>

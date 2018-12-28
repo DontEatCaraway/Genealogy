@@ -46,7 +46,27 @@ class User extends Model
 		return $result;
 	}
 
-	//完善用户信息
+	//修改用户信息  (身份证号和姓名)
+	public function update_user2($data,$id){
+		$result = Db::table("user")->where(" id = '$id' ")->update($data);
+		if($result){
+			return 1;
+		}else{
+			return -1;
+		}
+	}
+
+	//删除用户
+	public function delete_user($id){
+		$result = Db::table("user")->where(" id = '$id' ")->delete();
+		if($result){
+			return 1;   //删除成功
+		}else{
+			return -1;  //删除失败
+		}
+	}
+
+	//完善用户信息   当前登陆者修改信息
 	public function update_user($arr,$head_file){
 		$id = Session::get("id");
 		$result = Db::table("user")->where(" id = '$id' ")->update($arr);
